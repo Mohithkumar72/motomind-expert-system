@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MotoMind – Two-Wheeler Fault Diagnosis Expert System</title>
+  <meta name="description" content="AI Rule-Based Expert System for Motorcycle and Scooter Fault Diagnosis and Troubleshooting." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts for Modern Clean Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="#" class="brand-logo" id="btn-nav-home" aria-label="MotoMind Home">
+        <div class="logo-icon-box">
+          <!-- Motorcycle / Diagnostic Tachometer SVG -->
+          <svg class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="3.5"/>
+            <circle cx="18.5" cy="17.5" r="3.5"/>
+            <path d="M15 6h-3a1 1 0 0 0-1 1v4l-3 3h5.5l1.5-3.5L18 12"/>
+            <path d="M9 17h6"/>
+            <circle cx="12" cy="7" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Moto<span class="brand-highlight">Mind</span></span>
+          <span class="brand-tagline">Fault Diagnosis Expert System</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <button type="button" class="nav-link-btn" id="btn-nav-diagnose">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Diagnose
+        </button>
+        <button type="button" class="nav-link-btn" id="btn-nav-about">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          About AI System
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- 1. HOME PAGE VIEW                          -->
+    <!-- ========================================== -->
+    <section id="section-home" class="view-section active-section">
+      <div class="hero-container">
+        
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Rule-Based AI Inference Engine</span>
+        </div>
+
+        <h1 class="hero-title">
+          Smart Diagnostics for <br />
+          <span class="text-gradient">Two-Wheeler Faults</span>
+        </h1>
+
+        <p class="hero-description">
+          MotoMind simulates human motorcycle mechanic expertise using a rule-based expert system. 
+          Select observed symptoms to analyze mechanical, electrical, and fuel anomalies with transparent IF-THEN reasoning.
+        </p>
+
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="btn-start-diagnosis">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start Diagnosis
+          </button>
+          <button type="button" class="btn btn-secondary btn-lg" id="btn-home-about">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            How MotoMind Works
+          </button>
+        </div>
+
+        <!-- System Architecture Highlights -->
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3 class="feature-title">Knowledge Base</h3>
+            <p class="feature-desc">Curated domain knowledge covering starting, engine clatter, overheating, electrical draw, and fuel starvation.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <h3 class="feature-title">Inference Engine</h3>
+            <p class="feature-desc">Employs forward-chaining pattern matching against IF-THEN rules to calculate accurate fault confidence scores.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon emerald">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <h3 class="feature-title">Practical Troubleshooting</h3>
+            <p class="feature-desc">Outputs ordered actionable inspection steps, severity ratings, and clear explanations for why each fault triggered.</p>
+          </div>
+        </div>
+
+        <!-- Quick System Stats -->
+        <div class="stats-ribbon">
+          <div class="stat-item">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Symptom Categories</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">12+</span>
+            <span class="stat-label">Production Rules</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Deterministic & Explainable</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. SYMPTOM SELECTION WIZARD                -->
+    <!-- ========================================== -->
+    <section id="section-diagnosis" class="view-section">
+      <div class="diagnosis-wrapper">
+
+        <!-- Navigation Bar above Wizard -->
+        <div class="section-nav-bar">
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-back-home">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to Home
+          </button>
+          <div class="wizard-step-indicator">
+            <span class="step-badge">Step 1 of 2</span>
+            <span class="step-title">Select Reported Symptoms</span>
+          </div>
+        </div>
+
+        <!-- Wizard Header -->
+        <div class="wizard-header">
+          <h2 class="section-title">What issues are you experiencing?</h2>
+          <p class="section-subtitle">
+            Choose all symptoms currently observed on your motorcycle or scooter. The expert system will cross-reference the combinations against its rule base.
+          </p>
+        </div>
+
+        <!-- Demonstration Presets (Great for College Viva / Demos) -->
+        <div class="preset-box">
+          <div class="preset-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Live Demo Presets:</span>
+          </div>
+          <div class="preset-buttons-group">
+            <button type="button" class="btn-preset" data-preset="battery">Dead Battery</button>
+            <button type="button" class="btn-preset" data-preset="overheating">Engine Overheating</button>
+            <button type="button" class="btn-preset" data-preset="fuel_carb">Carb / Air Clog</button>
+            <button type="button" class="btn-preset" data-preset="electrical">Electrical Short</button>
+          </div>
+        </div>
+
+        <!-- Filter & Control Toolbar -->
+        <div class="symptom-toolbar">
+          <div class="search-box-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="symptom-search" placeholder="Quick search symptoms (e.g., clicking, noise, headlight...)" autocomplete="off" />
+          </div>
+
+          <div class="toolbar-actions">
+            <button type="button" class="btn btn-outline btn-sm" id="btn-select-all">Select All</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-clear-symptoms">Clear All</button>
+            <span class="count-badge" id="selected-count-badge">0 Selected</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Symptom Categories Container -->
+        <div id="symptom-categories-container" class="categories-container">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Sticky Footer Diagnostic Trigger -->
+        <div class="diagnosis-footer-bar">
+          <div class="footer-info">
+            <span class="footer-tip">Select one or more symptoms to trigger rule evaluations</span>
+          </div>
+          <button type="button" class="btn btn-primary btn-lg" id="btn-run-diagnosis" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Diagnose Faults
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. DIAGNOSIS RESULTS VIEW                  -->
+    <!-- ========================================== -->
+    <section id="section-results" class="view-section">
+      <div class="results-wrapper">
+
+        <!-- Results Nav Header -->
+        <div class="results-action-bar">
+          <div class="results-title-group">
+            <button type="button" class="btn btn-ghost btn-sm" id="btn-back-to-symptoms">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              Modify Symptoms
+            </button>
+            <h2 class="section-title">Diagnostic Results</h2>
+          </div>
+
+          <div class="results-controls">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-print-report">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print / Save Report
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-reset-diagnosis">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></svg>
+              Reset Diagnosis
+            </button>
+          </div>
+        </div>
+
+        <!-- Diagnostic Overview Banner -->
+        <div class="diagnosis-overview-card">
+          <div class="overview-item">
+            <span class="overview-label">User Input</span>
+            <span class="overview-value" id="results-summary-symptoms">0 symptoms selected</span>
+          </div>
+          <div class="overview-divider"></div>
+          <div class="overview-item">
+            <span class="overview-label">Inference Status</span>
+            <span class="overview-value text-accent" id="results-summary-count">0 possible faults detected</span>
+          </div>
+          <div class="overview-divider"></div>
+          <div class="overview-item">
+            <span class="overview-label">Evaluation Engine</span>
+            <span class="overview-value">Forward-Chaining Rule Match</span>
+          </div>
+        </div>
+
+        <!-- Results Card List Container -->
+        <div id="results-container" class="results-cards-grid">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+        <!-- No Results Empty State -->
+        <div id="no-results-message" class="no-results-card" style="display: none;">
+          <div class="empty-icon-wrap">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3>No Direct Rule Match Found</h3>
+          <p>The combination of symptoms selected did not satisfy the minimum condition thresholds of any predefined rule in the knowledge base.</p>
+          <div class="empty-actions">
+            <button type="button" class="btn btn-primary" id="btn-empty-retry" onclick="document.getElementById('btn-back-to-symptoms').click()">
+              Adjust Selected Symptoms
+            </button>
+          </div>
+        </div>
+
+        <!-- Safety Disclaimer Banner -->
+        <div class="safety-disclaimer-card">
+          <div class="disclaimer-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="disclaimer-text">
+            <h4>Important Safety & Diagnostic Disclaimer</h4>
+            <p>
+              MotoMind is an educational rule-based expert system designed as a preliminary troubleshooting guide. 
+              Always prioritize safety: high-voltage ignition parts, hot engine components, and fuel leaks pose safety hazards. 
+              If problems persist, have a certified two-wheeler mechanic inspect the vehicle before riding.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- ABOUT PROJECT MODAL (VIVA / PRESENTATION)  -->
+  <!-- ========================================== -->
+  <div id="about-modal" class="modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-tag">Artificial Intelligence Architecture</span>
+          <h2 id="modal-title">About MotoMind Expert System</h2>
+        </div>
+        <button type="button" class="modal-close" id="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <section class="modal-section">
+          <h3>What is a Rule-Based Expert System?</h3>
+          <p>
+            An <strong>Expert System</strong> is a branch of Artificial Intelligence (AI) that emulates the decision-making ability of a human specialist in a specific domain. Rather than using opaque black-box neural networks, an expert system applies explicit domain rules to deduce conclusions.
+          </p>
+        </section>
+
+        <section class="modal-section">
+          <h3>Core System Components</h3>
+          <div class="architecture-grid">
+            <div class="arch-card">
+              <span class="arch-badge">1</span>
+              <h4>Knowledge Base</h4>
+              <p>Encodes human mechanical expertise as structured IF-THEN production rules with associated fault categories, severity ratings, and troubleshooting procedures.</p>
+            </div>
+            <div class="arch-card">
+              <span class="arch-badge">2</span>
+              <h4>Working Memory</h4>
+              <p>Stores the active state of symptoms reported by the user for the current two-wheeler inspection session.</p>
+            </div>
+            <div class="arch-card">
+              <span class="arch-badge">3</span>
+              <h4>Inference Engine</h4>
+              <p>Applies forward-chaining pattern matching against the knowledge base, computes symptom match percentages, and orders faults by likelihood.</p>
+            </div>
+            <div class="arch-card">
+              <span class="arch-badge">4</span>
+              <h4>User Interface</h4>
+              <p>Provides an intuitive, automotive-styled dashboard enabling symptom selection, filter search, and transparent diagnosis results.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="modal-section">
+          <h3>Confidence & Match Percentage Formula</h3>
+          <p>Confidence score is deterministically calculated by comparing observed symptoms against a rule's requirement vector:</p>
+          <pre class="code-snippet">Match Percentage = (Matched Observed Symptoms / Total Symptoms in Rule) &times; 100%</pre>
+        </section>
+
+        <section class="modal-section">
+          <h3>Technical Stack</h3>
+          <div class="tech-pill-group">
+            <span class="tech-pill">Semantic HTML5</span>
+            <span class="tech-pill">Modern Responsive CSS3</span>
+            <span class="tech-pill">Pure Vanilla JavaScript (ES6+)</span>
+            <span class="tech-pill">Zero External AI Dependencies</span>
+            <span class="tech-pill">100% Offline Capable</span>
+          </div>
+        </section>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('modal-close-btn').click()">Close</button>
+      </div>
+    </div>
+  </div>
+  <div id="modal-backdrop" class="modal-backdrop"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        <strong>MotoMind</strong> &ndash; Two-Wheeler Fault Diagnosis Expert System
+      </div>
+      <div class="footer-credit">
+        AI &amp; Expert Systems Mini-Project &bull; Rule-Based Reasoning Engine
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="rules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
