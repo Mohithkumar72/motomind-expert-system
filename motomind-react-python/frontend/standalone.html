@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MotoMind – Two-Wheeler Fault Diagnosis (React + Python)</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Standalone React 18 and Babel (for instant zero-install preview) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* Inlined MotoMind Stylesheet */
+    :root {
+      --bg-darkest: #0a0d14;
+      --bg-darker: #0f141f;
+      --bg-surface: #151b29;
+      --bg-surface-elevated: #1c2436;
+      --bg-surface-hover: #222b3f;
+      --primary-orange: #ff6b00;
+      --primary-orange-hover: #ff8522;
+      --primary-orange-light: rgba(255, 107, 0, 0.12);
+      --primary-orange-border: rgba(255, 107, 0, 0.35);
+      --primary-orange-glow: rgba(255, 107, 0, 0.28);
+      --amber-accent: #f59e0b;
+      --severity-high: #ef4444;
+      --severity-high-bg: rgba(239, 68, 68, 0.12);
+      --severity-high-border: rgba(239, 68, 68, 0.3);
+      --severity-med: #f59e0b;
+      --severity-med-bg: rgba(245, 158, 11, 0.12);
+      --severity-med-border: rgba(245, 158, 11, 0.3);
+      --severity-low: #10b981;
+      --severity-low-bg: rgba(16, 185, 129, 0.12);
+      --severity-low-border: rgba(16, 185, 129, 0.3);
+      --text-main: #f3f4f6;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-strong: rgba(255, 255, 255, 0.22);
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 24px var(--primary-orange-glow);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--font-family); background-color: var(--bg-darkest); color: var(--text-main); line-height: 1.6; }
+    body { min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(circle at 15% 10%, rgba(255, 107, 0, 0.05) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.04) 0%, transparent 40%), var(--bg-darkest); }
+    button, input { font-family: inherit; font-size: inherit; }
+    .app-header { position: sticky; top: 0; z-index: 50; background: rgba(15, 20, 31, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-subtle); padding: 0.85rem 1.5rem; }
+    .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .brand-logo { display: flex; align-items: center; gap: 0.85rem; cursor: pointer; }
+    .logo-icon-box { width: 44px; height: 44px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--primary-orange), #d94e00); display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 4px 14px var(--primary-orange-glow); }
+    .brand-name { font-size: 1.35rem; font-weight: 800; color: #fff; }
+    .brand-highlight { color: var(--primary-orange); }
+    .brand-tagline { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .nav-links { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-link-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 0.5rem 0.9rem; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .nav-link-btn:hover { color: #fff; background: var(--bg-surface-elevated); border-color: var(--border-subtle); }
+    .status-pill { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.76rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px; }
+    .status-pill.online { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #10b981; }
+    .status-pill.offline { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .main-content { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 600; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.25s; border: 1px solid transparent; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary-orange), #ea580c); color: #fff; box-shadow: 0 4px 16px var(--primary-orange-glow); }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 0, 0.45); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-secondary { background: var(--bg-surface-elevated); color: var(--text-main); border-color: var(--border-medium); }
+    .btn-outline { background: transparent; color: var(--text-muted); border-color: var(--border-subtle); }
+    .btn-outline:hover { background: var(--bg-surface); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--text-muted); }
+    .btn-ghost:hover { color: #fff; background: var(--bg-surface); }
+    .btn-lg { padding: 0.85rem 1.6rem; font-size: 1rem; border-radius: var(--radius-md); }
+    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.82rem; }
+    .hero-container { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2.5rem 1rem 1rem; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 1rem; border-radius: 9999px; background: var(--primary-orange-light); border: 1px solid var(--primary-orange-border); color: var(--primary-orange); font-size: 0.82rem; font-weight: 600; margin-bottom: 1.5rem; }
+    .pulse-dot { width: 8px; height: 8px; background-color: var(--primary-orange); border-radius: 50%; box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7); animation: pulseAnimation 1.8s infinite; }
+    @keyframes pulseAnimation { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 107, 0, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 107, 0, 0); } }
+    .hero-title { font-size: 3rem; line-height: 1.15; font-weight: 800; color: #fff; margin-bottom: 1.25rem; }
+    .text-gradient { background: linear-gradient(135deg, #fff 30%, var(--primary-orange) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-description { max-width: 680px; color: var(--text-muted); font-size: 1.1rem; line-height: 1.65; margin-bottom: 2.25rem; }
+    .hero-actions { display: flex; gap: 1rem; margin-bottom: 3.5rem; flex-wrap: wrap; justify-content: center; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; margin-bottom: 3rem; }
+    .feature-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.8rem; text-align: left; }
+    .feature-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+    .feature-icon.orange { background: rgba(255, 107, 0, 0.14); color: var(--primary-orange); }
+    .feature-icon.amber { background: rgba(245, 158, 11, 0.14); color: var(--amber-accent); }
+    .feature-icon.emerald { background: rgba(16, 185, 129, 0.14); color: var(--severity-low); }
+    .feature-title { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .feature-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+    .stats-ribbon { display: flex; align-items: center; justify-content: center; gap: 2.5rem; padding: 1.25rem 2rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); flex-wrap: wrap; }
+    .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--primary-orange); line-height: 1.1; }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .stat-divider { width: 1px; height: 36px; background: var(--border-subtle); }
+    .diagnosis-wrapper { max-width: 980px; margin: 0 auto; }
+    .section-nav-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .wizard-step-indicator { display: flex; align-items: center; gap: 0.75rem; }
+    .step-badge { background: var(--primary-orange-light); color: var(--primary-orange); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid var(--primary-orange-border); }
+    .step-title { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); }
+    .section-title { font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+    .section-subtitle { color: var(--text-muted); font-size: 0.98rem; line-height: 1.55; }
+    .preset-box { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; flex-wrap: wrap; }
+    .preset-label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; color: var(--primary-orange); text-transform: uppercase; }
+    .preset-buttons-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .btn-preset { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 0.35rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-preset:hover { background: var(--primary-orange); color: #fff; border-color: var(--primary-orange); }
+    .symptom-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .search-box-wrapper { position: relative; flex: 1; min-width: 260px; }
+    .search-icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
+    .search-box-wrapper input { width: 100%; background: var(--bg-surface); border: 1px solid var(--border-medium); border-radius: var(--radius-md); padding: 0.65rem 0.9rem 0.65rem 2.5rem; color: #fff; font-size: 0.92rem; outline: none; }
+    .search-box-wrapper input:focus { border-color: var(--primary-orange); box-shadow: 0 0 0 3px var(--primary-orange-light); }
+    .toolbar-actions { display: flex; align-items: center; gap: 0.6rem; }
+    .count-badge { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 0.82rem; font-weight: 700; padding: 0.42rem 0.85rem; border-radius: var(--radius-sm); }
+    .count-badge.has-selection { background: var(--primary-orange-light); border-color: var(--primary-orange-border); color: var(--primary-orange); }
+    .categories-container { display: flex; flex-direction: column; gap: 1.75rem; margin-bottom: 2.5rem; }
+    .category-group-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.4rem; }
+    .category-header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.15rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-subtle); }
+    .category-icon-wrapper { width: 38px; height: 38px; border-radius: var(--radius-sm); background: var(--primary-orange-light); color: var(--primary-orange); display: flex; align-items: center; justify-content: center; }
+    .category-title { font-size: 1.15rem; font-weight: 700; color: #fff; }
+    .category-meta { font-size: 0.78rem; color: var(--text-dim); }
+    .symptoms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem; }
+    .symptom-checkbox-label { display: flex; align-items: flex-start; gap: 0.85rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.9rem 1rem; cursor: pointer; user-select: none; transition: all 0.2s; }
+    .symptom-checkbox-label:hover { background: var(--bg-surface-hover); border-color: var(--border-medium); }
+    .symptom-checkbox-label.active { background: rgba(255, 107, 0, 0.08); border-color: var(--primary-orange); box-shadow: 0 0 12px rgba(255, 107, 0, 0.15); }
+    .checkbox-custom-wrapper { position: relative; display: flex; align-items: center; margin-top: 2px; }
+    .symptom-checkbox { position: absolute; opacity: 0; width: 0; height: 0; }
+    .custom-checkbox-indicator { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-strong); background: var(--bg-darkest); display: flex; align-items: center; justify-content: center; color: transparent; }
+    .symptom-checkbox:checked + .custom-checkbox-indicator { background: var(--primary-orange); border-color: var(--primary-orange); color: #fff; }
+    .symptom-name { font-size: 0.95rem; font-weight: 700; color: #fff; }
+    .symptom-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+    .diagnosis-footer-bar { position: sticky; bottom: 1.25rem; background: rgba(21, 27, 41, 0.95); backdrop-filter: blur(12px); border: 1px solid var(--border-medium); border-radius: var(--radius-lg); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: var(--shadow-lg); z-index: 30; }
+    .footer-tip { font-size: 0.88rem; color: var(--text-muted); }
+    .results-wrapper { max-width: 980px; margin: 0 auto; }
+    .results-action-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .diagnosis-overview-card { display: flex; align-items: center; justify-content: space-around; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.25rem 1.75rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1.25rem; }
+    .overview-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); font-weight: 700; }
+    .overview-value { font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .overview-value.text-accent { color: var(--primary-orange); }
+    .overview-divider { width: 1px; height: 38px; background: var(--border-subtle); }
+    .results-cards-grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; margin-bottom: 2.5rem; }
+    .diagnosis-result-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.75rem; }
+    .diagnosis-result-card.severity-high { border-left: 4px solid var(--severity-high); }
+    .diagnosis-result-card.severity-medium { border-left: 4px solid var(--severity-med); }
+    .diagnosis-result-card.severity-low { border-left: 4px solid var(--severity-low); }
+    .card-top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+    .rank-badge { background: var(--bg-surface-elevated); border: 1px solid var(--border-medium); font-size: 0.78rem; font-weight: 700; color: var(--text-main); padding: 0.25rem 0.6rem; border-radius: var(--radius-sm); }
+    .system-category-tag { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-left: 0.5rem; }
+    .severity-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 9999px; text-transform: uppercase; }
+    .badge-severity-high { background: var(--severity-high-bg); border: 1px solid var(--severity-high-border); color: var(--severity-high); }
+    .badge-severity-medium { background: var(--severity-med-bg); border: 1px solid var(--severity-med-border); color: var(--severity-med); }
+    .badge-severity-low { background: var(--severity-low-bg); border: 1px solid var(--severity-low-border); color: var(--severity-low); }
+    .match-score-badge { display: inline-flex; align-items: baseline; gap: 0.3rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 700; }
+    .match-high { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; }
+    .match-meter-fill.match-high { background: linear-gradient(90deg, #059669, #10b981); }
+    .match-moderate { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b; }
+    .match-meter-fill.match-moderate { background: linear-gradient(90deg, #d97706, #f59e0b); }
+    .match-low { background: rgba(148, 163, 184, 0.15); border: 1px solid rgba(148, 163, 184, 0.4); color: #94a3b8; }
+    .match-meter-fill.match-low { background: #64748b; }
+    .card-fault-title { font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: 0.85rem; }
+    .match-meter-wrapper { margin-bottom: 1.25rem; }
+    .match-meter-bar { height: 6px; background: var(--bg-surface-elevated); border-radius: 9999px; overflow: hidden; margin-bottom: 0.35rem; }
+    .match-meter-fill { height: 100%; border-radius: 9999px; transition: width 0.6s; }
+    .match-meter-text { font-size: 0.78rem; color: var(--text-dim); }
+    .sub-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.45rem; }
+    .symptom-tags-wrapper { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .symptom-tag { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 6px; }
+    .symptom-tag.matched { background: rgba(255, 107, 0, 0.12); border: 1px solid var(--primary-orange-border); color: #ff9d47; }
+    .symptom-tag.unconfirmed { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-dim); }
+    .rule-trigger-banner { background: var(--bg-darker); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin: 1.25rem 0; }
+    .rule-tag-header { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--primary-orange); text-transform: uppercase; margin-bottom: 0.35rem; }
+    .rule-code { font-family: var(--font-mono); font-size: 0.82rem; color: #e2e8f0; display: block; }
+    .section-subheading { display: flex; align-items: center; gap: 0.5rem; font-size: 0.92rem; font-weight: 700; color: #fff; margin-bottom: 0.45rem; }
+    .explanation-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .steps-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.25rem; }
+    .step-item { display: flex; align-items: flex-start; gap: 0.75rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.65rem 0.85rem; }
+    .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--primary-orange-light); color: var(--primary-orange); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step-text { font-size: 0.86rem; color: #e2e8f0; }
+    .mechanic-advice-box { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-sm); padding: 0.75rem 1rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+    .advice-content { font-size: 0.84rem; color: #cbd5e1; }
+    .advice-content strong { color: var(--amber-accent); }
+    .safety-disclaimer-card { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1.25rem; margin-top: 1.5rem; }
+    .disclaimer-text h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.35rem; }
+    .disclaimer-text p { font-size: 0.84rem; color: var(--text-muted); }
+    .modal-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-wrapper.active { display: flex; }
+    .modal-backdrop { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 99; display: none; }
+    .modal-backdrop.active { display: block; }
+    .modal-card { background: var(--bg-surface); border: 1px solid var(--border-medium); border-radius: var(--radius-xl); max-width: 720px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; z-index: 101; }
+    .modal-header { padding: 1.5rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: flex-start; justify-content: space-between; }
+    .modal-close { background: transparent; border: none; color: var(--text-dim); font-size: 1.8rem; cursor: pointer; }
+    .modal-body { padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+    .architecture-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 0.75rem; }
+    .arch-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem; }
+    .arch-badge { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--primary-orange); color: #fff; font-size: 0.75rem; font-weight: 800; text-align: center; line-height: 22px; margin-bottom: 0.5rem; }
+    .code-snippet { background: var(--bg-darkest); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem 1rem; font-family: var(--font-mono); font-size: 0.82rem; color: var(--primary-orange); margin-top: 0.5rem; }
+    .tech-pill-group { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .tech-pill { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); font-size: 0.78rem; font-weight: 600; color: #e2e8f0; padding: 0.35rem 0.75rem; border-radius: 9999px; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end; }
+    .app-footer { background: var(--bg-darker); border-top: 1px solid var(--border-subtle); padding: 1.5rem; margin-top: auto; }
+    .footer-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; font-size: 0.84rem; color: var(--text-dim); }
+    @media print { .app-header, .app-footer, .results-action-bar, .modal-wrapper, .modal-backdrop { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React Application Source -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const SYMPTOM_DATA = [
+      {
+        id: "starting",
+        name: "Starting Problems",
+        icon: "zap",
+        symptoms: [
+          { id: "bike_wont_start", label: "Bike won't start", desc: "Engine does not crank or refuses to fire up at all." },
+          { id: "self_start_not_working", label: "Self-start not working", desc: "Pressing electric starter button produces no starter motor rotation." },
+          { id: "clicking_sound_starting", label: "Clicking sound when starting", desc: "A rapid clicking noise is heard from under the seat when pressing start." }
+        ]
+      },
+      {
+        id: "engine",
+        name: "Engine Problems",
+        icon: "engine",
+        symptoms: [
+          { id: "engine_overheating", label: "Engine overheating", desc: "Engine block becomes abnormally hot, emits burning odor or high temp warning." },
+          { id: "engine_unusual_noises", label: "Engine making unusual noises", desc: "Metallic knocking, tapping, rattling, or grinding sounds while running." },
+          { id: "engine_stopping_frequently", label: "Engine stopping frequently", desc: "Engine stalls suddenly at idling, traffic signals, or when slowing down." }
+        ]
+      },
+      {
+        id: "performance",
+        name: "Performance Problems",
+        icon: "gauge",
+        symptoms: [
+          { id: "low_mileage", label: "Low mileage", desc: "Fuel tank drains much faster than normal; unexpected drop in fuel economy." },
+          { id: "poor_acceleration", label: "Poor acceleration", desc: "Bike feels sluggish, struggles to pick up speed despite twisting throttle." },
+          { id: "excessive_vibration", label: "Excessive vibration", desc: "Intense vibrations felt on handlebars, footpegs, or seat at specific speeds." }
+        ]
+      },
+      {
+        id: "electrical",
+        name: "Electrical Problems",
+        icon: "battery",
+        symptoms: [
+          { id: "headlight_not_working", label: "Headlight not working", desc: "Headlamp does not turn on, flickers heavily, or glows extremely dim." },
+          { id: "battery_draining_quickly", label: "Battery draining quickly", desc: "Battery loses charge within hours or overnight without use." },
+          { id: "horn_not_working", label: "Horn not working", desc: "Horn produces no sound, a weak squeak, or only works when revving." }
+        ]
+      }
+    ];
+
+    function StandaloneMotoMindApp() {
+      const [activeView, setActiveView] = useState('home');
+      const [aboutOpen, setAboutOpen] = useState(false);
+      const [selectedSymptoms, setSelectedSymptoms] = useState(new Set());
+      const [searchQuery, setSearchQuery] = useState('');
+      const [backendOnline, setBackendOnline] = useState(false);
+      const [results, setResults] = useState([]);
+      const [loading, setLoading] = useState(false);
+
+      // Probe Python backend
+      useEffect(() => {
+        fetch("http://127.0.0.1:5000/api/health")
+          .then(res => res.ok ? setBackendOnline(true) : setBackendOnline(false))
+          .catch(() => setBackendOnline(false));
+      }, []);
+
+      const toggleSymptom = (id) => {
+        setSelectedSymptoms(prev => {
+          const next = new Set(prev);
+          next.has(id) ? next.delete(id) : next.add(id);
+          return next;
+        });
+      };
+
+      const loadPreset = (type) => {
+        const presets = {
+          battery: ["bike_wont_start", "clicking_sound_starting", "headlight_not_working"],
+          overheating: ["engine_overheating", "engine_unusual_noises", "poor_acceleration"],
+          carb: ["low_mileage", "poor_acceleration", "engine_stopping_frequently"],
+          elec: ["headlight_not_working", "horn_not_working", "self_start_not_working"]
+        };
+        setSelectedSymptoms(new Set(presets[type] || []));
+      };
+
+      const runDiagnosis = async () => {
+        if (selectedSymptoms.size === 0) return alert("Select at least one symptom!");
+        setLoading(true);
+        try {
+          const res = await fetch("http://127.0.0.1:5000/api/diagnose", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ symptoms: Array.from(selectedSymptoms) })
+          });
+          const data = await res.json();
+          setResults(data.results || []);
+          setBackendOnline(true);
+          setActiveView('results');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (e) {
+          alert("Could not reach Python API at http://127.0.0.1:5000. Please start python app.py!");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div>
+          <header className="app-header">
+            <div className="header-container">
+              <div className="brand-logo" onClick={() => setActiveView('home')}>
+                <div className="logo-icon-box">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/>
+                    <path d="M15 6h-3a1 1 0 0 0-1 1v4l-3 3h5.5l1.5-3.5L18 12"/><path d="M9 17h6"/><circle cx="12" cy="7" r="1" fill="currentColor"/>
+                  </svg>
+                </div>
+                <div>
+                  <div className="brand-name">Moto<span className="brand-highlight">Mind</span></div>
+                  <div className="brand-tagline">React + Python AI Expert System</div>
+                </div>
+              </div>
+
+              <div className="nav-links">
+                <span className={`status-pill ${backendOnline ? 'online' : 'offline'}`}>
+                  <span className="status-dot"></span>
+                  {backendOnline ? 'Python API Online' : 'Python API Offline'}
+                </span>
+                <button className="nav-link-btn" onClick={() => setActiveView('diagnosis')}>Diagnose</button>
+                <button className="nav-link-btn" onClick={() => setAboutOpen(true)}>About AI System</button>
+              </div>
+            </div>
+          </header>
+
+          <main className="main-content">
+            {activeView === 'home' && (
+              <div className="hero-container">
+                <div className="hero-badge"><span className="pulse-dot"></span> Python Rule-Based AI Engine</div>
+                <h1 className="hero-title">Smart Diagnostics for <br/><span className="text-gradient">Two-Wheeler Faults</span></h1>
+                <p className="hero-description">MotoMind connects a responsive <strong>React.js</strong> interface to a <strong>Python</strong> forward-chaining expert system for transparent mechanical reasoning.</p>
+                <div className="hero-actions">
+                  <button className="btn btn-primary btn-lg" onClick={() => setActiveView('diagnosis')}>Start Diagnosis</button>
+                  <button className="btn btn-secondary btn-lg" onClick={() => setAboutOpen(true)}>How MotoMind Works</button>
+                </div>
+                <div className="features-grid">
+                  <div className="feature-card">
+                    <div className="feature-icon orange"><strong>PY</strong></div>
+                    <div className="feature-title">Python Knowledge Base</div>
+                    <div className="feature-desc">12 production IF-THEN rules encoded in Python rules.py.</div>
+                  </div>
+                  <div className="feature-card">
+                    <div className="feature-icon amber"><strong>AI</strong></div>
+                    <div className="feature-title">Inference Engine</div>
+                    <div className="feature-desc">Calculates deterministic match scores using forward chaining.</div>
+                  </div>
+                  <div className="feature-card">
+                    <div className="feature-icon emerald"><strong>UI</strong></div>
+                    <div className="feature-title">React.js Dashboard</div>
+                    <div className="feature-desc">Dynamic cards, search filters, and print-ready reports.</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'diagnosis' && (
+              <div className="diagnosis-wrapper">
+                <div className="section-nav-bar">
+                  <button className="btn btn-ghost btn-sm" onClick={() => setActiveView('home')}>← Back to Home</button>
+                  <div className="wizard-step-indicator">
+                    <span className="step-badge">Step 1 of 2</span>
+                    <span className="step-title">Select Observed Symptoms</span>
+                  </div>
+                </div>
+
+                <h2 className="section-title">What issues are you experiencing?</h2>
+                <p className="section-subtitle">Select observed symptoms to trigger the Python rule evaluation.</p>
+
+                <div className="preset-box">
+                  <span className="preset-label">⚡ Live Presets:</span>
+                  <div className="preset-buttons-group">
+                    <button className="btn-preset" onClick={() => loadPreset('battery')}>Dead Battery</button>
+                    <button className="btn-preset" onClick={() => loadPreset('overheating')}>Overheating</button>
+                    <button className="btn-preset" onClick={() => loadPreset('carb')}>Carb Clog</button>
+                    <button className="btn-preset" onClick={() => loadPreset('elec')}>Electrical Short</button>
+                  </div>
+                </div>
+
+                <div className="symptom-toolbar">
+                  <div className="search-box-wrapper">
+                    <input 
+                      type="text" 
+                      placeholder="Search symptoms..." 
+                      value={searchQuery}
+                      onChange={e => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <div className="toolbar-actions">
+                    <button className="btn btn-outline btn-sm" onClick={() => {
+                      const s = new Set();
+                      SYMPTOM_DATA.forEach(c => c.symptoms.forEach(sym => s.add(sym.id)));
+                      setSelectedSymptoms(s);
+                    }}>Select All</button>
+                    <button className="btn btn-outline btn-sm" onClick={() => setSelectedSymptoms(new Set())}>Clear</button>
+                    <span className={`count-badge ${selectedSymptoms.size > 0 ? 'has-selection' : ''}`}>
+                      {selectedSymptoms.size} Selected
+                    </span>
+                  </div>
+                </div>
+
+                <div className="categories-container">
+                  {SYMPTOM_DATA.map(cat => {
+                    const filtered = cat.symptoms.filter(s => 
+                      !searchQuery || s.label.toLowerCase().includes(searchQuery.toLowerCase()) || s.desc.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                    if (filtered.length === 0) return null;
+                    return (
+                      <div key={cat.id} className="category-group-card">
+                        <div className="category-header">
+                          <h3 className="category-title">{cat.name}</h3>
+                          <span className="category-meta">{filtered.length} symptoms</span>
+                        </div>
+                        <div className="symptoms-grid">
+                          {filtered.map(s => {
+                            const isChecked = selectedSymptoms.has(s.id);
+                            return (
+                              <label 
+                                key={s.id} 
+                                className={`symptom-checkbox-label ${isChecked ? 'active' : ''}`}
+                                onClick={() => toggleSymptom(s.id)}
+                              >
+                                <div className="checkbox-custom-wrapper">
+                                  <input type="checkbox" className="symptom-checkbox" checked={isChecked} onChange={() => {}} />
+                                  <span className="custom-checkbox-indicator">✓</span>
+                                </div>
+                                <div>
+                                  <div className="symptom-name">{s.label}</div>
+                                  <div className="symptom-desc">{s.desc}</div>
+                                </div>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="diagnosis-footer-bar">
+                  <span className="footer-tip">Ready to analyze with Python backend</span>
+                  <button 
+                    className="btn btn-primary btn-lg" 
+                    onClick={runDiagnosis}
+                    disabled={selectedSymptoms.size === 0 || loading}
+                  >
+                    {loading ? "Running Python Inference..." : "Diagnose Faults"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'results' && (
+              <div className="results-wrapper">
+                <div className="results-action-bar">
+                  <button className="btn btn-ghost btn-sm" onClick={() => setActiveView('diagnosis')}>← Modify Symptoms</button>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button className="btn btn-secondary btn-sm" onClick={() => window.print()}>Print / Save</button>
+                    <button className="btn btn-outline btn-sm" onClick={() => { setSelectedSymptoms(new Set()); setActiveView('diagnosis'); }}>Reset</button>
+                  </div>
+                </div>
+
+                <div className="diagnosis-overview-card">
+                  <div>
+                    <div className="overview-label">Symptoms Input</div>
+                    <div className="overview-value">{selectedSymptoms.size} Selected</div>
+                  </div>
+                  <div className="overview-divider"></div>
+                  <div>
+                    <div className="overview-label">Python AI Status</div>
+                    <div className="overview-value text-accent">{results.length} Faults Diagnosed</div>
+                  </div>
+                  <div className="overview-divider"></div>
+                  <div>
+                    <div className="overview-label">Inference Engine</div>
+                    <div className="overview-value">Forward-Chaining Match</div>
+                  </div>
+                </div>
+
+                <div className="results-cards-grid">
+                  {results.map((r, i) => (
+                    <article key={r.rule_id} className={`diagnosis-result-card severity-${r.severity.toLowerCase()}`}>
+                      <div className="card-top-bar">
+                        <span className="rank-badge">#{i+1} Likely Cause</span>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <span className={`severity-badge badge-severity-${r.severity.toLowerCase()}`}>{r.severity} Severity</span>
+                          <span className="match-score-badge match-high">{r.match_percentage}% Match</span>
+                        </div>
+                      </div>
+                      <h3 className="card-fault-title">{r.fault}</h3>
+
+                      <div className="match-meter-wrapper">
+                        <div className="match-meter-bar">
+                          <div className="match-meter-fill match-high" style={{ width: `${r.match_percentage}%` }}></div>
+                        </div>
+                        <span className="match-meter-text">{r.match_count} of {r.total_symptoms} key symptoms matched</span>
+                      </div>
+
+                      <div className="rule-trigger-banner">
+                        <div className="rule-tag-header">Triggered Rule ({r.rule_id})</div>
+                        <code className="rule-code">{r.rule_condition}</code>
+                      </div>
+
+                      <div className="section-subheading">Why MotoMind Suggested This:</div>
+                      <p className="explanation-text">{r.explanation}</p>
+
+                      <div className="section-subheading">Basic Troubleshooting:</div>
+                      <ul className="steps-list">
+                        {r.troubleshooting.map((step, idx) => (
+                          <li key={idx} className="step-item">
+                            <span className="step-num">{idx + 1}</span>
+                            <span className="step-text">{step}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mechanic-advice-box">
+                        <div className="advice-content"><strong>Professional Guidance:</strong> {r.mechanic_advice}</div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            )}
+          </main>
+
+          {aboutOpen && (
+            <div className="modal-wrapper active">
+              <div className="modal-card">
+                <div className="modal-header">
+                  <h3>About MotoMind AI System</h3>
+                  <button className="modal-close" onClick={() => setAboutOpen(false)}>×</button>
+                </div>
+                <div className="modal-body">
+                  <p>MotoMind uses a <strong>Rule-Based Expert System</strong> architecture written in Python with a React frontend.</p>
+                  <div className="code-snippet">Match % = (Matched Rule Symptoms / Total Rule Symptoms) * 100%</div>
+                </div>
+                <div className="modal-footer">
+                  <button className="btn btn-secondary" onClick={() => setAboutOpen(false)}>Close</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<StandaloneMotoMindApp />);
+  </script>
+</body>
+</html>
