@@ -38,6 +38,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
           Diagnose
         </button>
+        <button type="button" class="nav-link-btn" id="btn-nav-results" style="display: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Results
+        </button>
         <button type="button" class="nav-link-btn" id="btn-nav-about">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           About AI System
@@ -202,7 +206,78 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- 3. DIAGNOSIS RESULTS VIEW                  -->
+    <!-- 3. CONSULTATION WIZARD (NEW)              -->
+    <!-- ========================================== -->
+    <section id="section-consultation" class="view-section">
+      <div class="consult-wrapper">
+
+        <!-- Consultation Header -->
+        <div class="consult-header">
+          <div class="consult-header-top">
+            <div class="consult-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              Consultation Mode — Narrowing Down the Fault
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" id="btn-skip-consult">
+              Skip Questions &rarr; Show Results
+            </button>
+          </div>
+          <h2 class="section-title">Follow-Up Questions</h2>
+          <p class="section-subtitle">
+            Answer these targeted questions so the expert system can refine the diagnosis with higher accuracy.
+          </p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="consult-progress-wrap">
+          <div class="consult-progress-info">
+            <span id="consult-progress">Question 1 of …</span>
+            <span class="consult-progress-pct" id="consult-pct-label"></span>
+          </div>
+          <div class="consult-progress-track">
+            <div class="consult-progress-fill" id="consult-progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="consult-question-card">
+          <div class="consult-q-number">
+            Q<span id="consult-q-num">1</span> / <span id="consult-q-total">1</span>
+          </div>
+          <p class="consult-question-text" id="consult-question">Loading question…</p>
+          <p class="consult-hint-text" id="consult-hint"></p>
+
+          <div class="consult-answer-buttons">
+            <button type="button" class="btn btn-consult-yes" id="btn-consult-yes">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Yes
+            </button>
+            <button type="button" class="btn btn-consult-no" id="btn-consult-no">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+              No
+            </button>
+          </div>
+        </div>
+
+        <!-- Info note -->
+        <div class="consult-info-note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Your answers refine the inference engine's confidence scores. All processing happens locally — no data is sent anywhere.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. DIAGNOSIS RESULTS VIEW                  -->
     <!-- ========================================== -->
     <section id="section-results" class="view-section">
       <div class="results-wrapper">

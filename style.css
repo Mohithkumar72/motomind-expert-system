@@ -191,10 +191,16 @@ button, input {
   transition: all var(--transition-fast);
 }
 
-.nav-link-btn:hover {
+.nav-link-btn:hover,
+.nav-link-btn.active {
   color: #ffffff;
   background: var(--bg-surface-elevated);
   border-color: var(--border-subtle);
+}
+
+.nav-link-btn.active {
+  color: var(--color-primary-orange);
+  border-color: rgba(255, 106, 0, 0.4);
 }
 
 /* ==========================================================================
@@ -1662,5 +1668,252 @@ button, input {
   .card-top-badges {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+/* ==========================================================================
+   MotoMind – CONSULTATION MODE & CAUSES LIST (Appended Styles)
+   ========================================================================== */
+
+/* ── Consultation Wrapper ──────────────────────────────────────────────── */
+.consult-wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.consult-header {
+  margin-bottom: 2rem;
+}
+
+.consult-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.consult-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 107, 0, 0.12);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  color: var(--primary-orange);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ── Progress Bar ──────────────────────────────────────────────────────── */
+.consult-progress-wrap {
+  margin-bottom: 1.8rem;
+}
+
+.consult-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.consult-progress-track {
+  height: 6px;
+  background: var(--bg-surface-elevated);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.consult-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-orange), var(--amber-accent));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* ── Question Card ─────────────────────────────────────────────────────── */
+.consult-question-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 2.4rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.consult-question-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-orange), var(--amber-accent));
+}
+
+.consult-q-number {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary-orange);
+  background: rgba(255, 107, 0, 0.1);
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.consult-question-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+.consult-hint-text {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-left: 3px solid var(--border-strong);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 2rem;
+}
+
+/* ── Yes / No Buttons ──────────────────────────────────────────────────── */
+.consult-answer-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-consult-yes,
+.btn-consult-no {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+  flex: 1;
+  justify-content: center;
+  min-width: 140px;
+}
+
+.btn-consult-yes {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #10b981;
+}
+
+.btn-consult-yes:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: #10b981;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+}
+
+.btn-consult-no {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.btn-consult-no:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2);
+}
+
+/* ── Info Note ─────────────────────────────────────────────────────────── */
+.consult-info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.consult-info-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Causes List (new block in result cards) ───────────────────────────── */
+.card-causes-block {
+  margin-bottom: 1.2rem;
+  padding: 1.1rem 1.3rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.causes-list {
+  list-style: none;
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.causes-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.causes-list li::before {
+  content: "→";
+  color: var(--amber-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Responsive tweaks for consultation card ──────────────────────────── */
+@media (max-width: 600px) {
+  .consult-question-card {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .consult-question-text {
+    font-size: 1.08rem;
+  }
+
+  .consult-answer-buttons {
+    flex-direction: column;
+  }
+
+  .btn-consult-yes,
+  .btn-consult-no {
+    width: 100%;
+  }
+
+  .consult-header-top {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

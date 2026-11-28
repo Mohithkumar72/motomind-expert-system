@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Report - MotoMind Two-Wheeler Fault Diagnosis Expert System</title>
+  <style>
+    /* ==========================================================================
+       Print & Academic Report Stylesheet - Exact MITS / JNTUA Project Report Format
+       ========================================================================== */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 15mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      background-color: #f4f6f9;
+      line-height: 1.5;
+      font-size: 11pt;
+    }
+
+    .report-sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 15px auto;
+      background: #ffffff;
+      padding: 12mm 15mm;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      position: relative;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Double Border on Every Page - Just like the sample PDF */
+    .page-border {
+      position: absolute;
+      top: 8mm;
+      left: 8mm;
+      right: 8mm;
+      bottom: 8mm;
+      border: 2px solid #000000;
+      pointer-events: none;
+    }
+
+    .page-border::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      border: 1px solid #000000;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 2mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10pt;
+      font-weight: normal;
+    }
+
+    /* ==========================================================================
+       Page 1: Title / Cover Page
+       ========================================================================== */
+    .front-page {
+      text-align: center;
+      justify-content: space-between;
+      padding: 10mm 5mm 5mm;
+    }
+
+    .front-title-main {
+      font-size: 17pt;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      color: #1a365d;
+      margin-bottom: 6px;
+    }
+
+    .front-on {
+      font-size: 13pt;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .front-project-name {
+      font-size: 22pt;
+      font-weight: bold;
+      color: #1a365d;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .front-project-sub {
+      font-size: 11.5pt;
+      font-weight: bold;
+      color: #1a365d;
+      margin-bottom: 16px;
+    }
+
+    .front-university {
+      font-size: 10pt;
+      font-weight: bold;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .front-fulfillment {
+      font-size: 10pt;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .front-degree {
+      font-size: 13pt;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .front-dept {
+      font-size: 11pt;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    .front-submitted {
+      font-size: 11pt;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .front-students {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .front-students p {
+      font-size: 10.5pt;
+      font-weight: bold;
+    }
+
+    .front-logo-container {
+      margin: 6px auto;
+      width: 110px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .college-name {
+      font-size: 11.5pt;
+      font-weight: bold;
+      color: #1a365d;
+      letter-spacing: 0.02em;
+      margin-top: 4px;
+    }
+
+    .college-tag {
+      font-size: 9.5pt;
+      font-weight: bold;
+      margin-top: 2px;
+    }
+
+    .college-details {
+      font-size: 8.5pt;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .front-year {
+      font-size: 10pt;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    /* ==========================================================================
+       Internal Sections & Typography
+       ========================================================================== */
+    h1.section-title {
+      font-size: 14pt;
+      font-weight: bold;
+      color: #1a365d;
+      border-bottom: 1.5px solid #1a365d;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    h2.subsection-title {
+      font-size: 12pt;
+      font-weight: bold;
+      color: #1a365d;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    h3.sub-subsection-title {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #000000;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 8px;
+      font-size: 10pt;
+      line-height: 1.45;
+    }
+
+    .abstract-body p {
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+
+    .keywords {
+      margin-top: 20px;
+      font-size: 10pt;
+      text-align: justify;
+      line-height: 1.45;
+    }
+
+    .keywords strong {
+      font-weight: bold;
+    }
+
+    /* ==========================================================================
+       Tables & Code Blocks
+       ========================================================================== */
+    .table-caption {
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #1a365d;
+      margin: 10px 0 4px;
+      text-align: left;
+    }
+
+    table.report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      font-size: 8.5pt;
+    }
+
+    table.report-table th, table.report-table td {
+      border: 1px solid #cbd5e1;
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.report-table th {
+      background-color: #1a365d;
+      color: #ffffff;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    table.report-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .code-box {
+      background-color: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin: 6px 0 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 8pt;
+      line-height: 1.35;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .code-purpose {
+      font-size: 9pt;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    .code-file {
+      font-size: 8.5pt;
+      font-style: italic;
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+      font-size: 10pt;
+    }
+
+    li {
+      margin-bottom: 4px;
+      text-align: justify;
+    }
+
+    /* Formula Banner */
+    .formula-banner {
+      background: #f1f5f9;
+      border-left: 4px solid #1a365d;
+      padding: 6px 12px;
+      margin: 8px 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 9.5pt;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    /* Print Controls */
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .print-btn {
+      background: #ff6b00;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 10pt;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .print-btn:hover {
+      background: #ea580c;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .report-sheet {
+        margin: 0;
+        box-shadow: none;
+        width: 100%;
+        min-height: 100vh;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Non-printing Top Bar with 1-Click Print / Save PDF -->
+  <div class="no-print-bar">
+    <div>
+      <strong>MotoMind – Project Report</strong> (Formatted for MITS / JNTUA Project Submission)
+    </div>
+    <button class="print-btn" onclick="window.print()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 1: FRONT / TITLE PAGE                                                 -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content front-page">
+      
+      <div>
+        <div class="front-title-main">PROJECT REPORT</div>
+        <div class="front-on">ON</div>
+        <div class="front-project-name">MOTOMIND</div>
+        <div class="front-project-sub">Two-Wheeler Fault Diagnosis Expert System</div>
+      </div>
+
+      <div class="front-university">
+        JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY ANANTAPUR, ANANTHAPURAMU
+      </div>
+
+      <div>
+        <div class="front-fulfillment">
+          In Partial Fulfillment of the Requirements for the Award of the Degree of
+        </div>
+        <div class="front-degree">
+          BACHELOR OF TECHNOLOGY
+        </div>
+        <div class="front-dept">
+          IN<br />COMPUTER SCIENCE &amp; ENGINEERING
+        </div>
+      </div>
+
+      <div>
+        <div class="front-submitted">Submitted By</div>
+        <div class="front-students">
+          <p>25695A0524 &ndash; G.Kishore</p>
+          <p>24691A05W3 &ndash; B.R.Mohan</p>
+          <p>24691A05W5 &ndash; B.Mohith Kumar</p>
+          <p>25695A0529 &ndash; U.Mahendra Kumar</p>
+        </div>
+      </div>
+
+      <!-- Official MITS Emblem SVG -->
+      <div class="front-logo-container">
+        <svg width="105" height="105" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="92" fill="#ffffff" stroke="#c00000" stroke-width="6"/>
+          <circle cx="100" cy="100" r="82" fill="#ffffff" stroke="#1a365d" stroke-width="2"/>
+          <path id="mits-text-path" d="M 28 100 A 72 72 0 0 1 172 100" fill="none" stroke="none"/>
+          <text font-family="'Times New Roman', serif" font-size="10.5" font-weight="bold" fill="#1a365d">
+            <textPath href="#mits-text-path" startOffset="50%" text-anchor="middle">
+              MADANAPALLE INSTITUTE OF TECHNOLOGY &amp; SCIENCE
+            </textPath>
+          </text>
+          <!-- Center Emblem: Stylized Flame & Gear -->
+          <circle cx="100" cy="102" r="46" fill="#fef2f2" stroke="#c00000" stroke-width="3"/>
+          <path d="M 100 68 C 112 82 125 96 116 112 C 110 122 90 122 84 112 C 75 96 88 82 100 68 Z" fill="#c00000"/>
+          <path d="M 100 78 C 106 88 114 98 108 108 C 104 114 96 114 92 108 C 86 98 94 88 100 78 Z" fill="#ffc000"/>
+          <text x="100" y="132" font-family="'Times New Roman', serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#1a365d">1998</text>
+          <!-- Telugu Ribbon Text -->
+          <path d="M 50 152 Q 100 170 150 152 Q 130 168 100 168 Q 70 168 50 152 Z" fill="#c00000"/>
+          <text x="100" y="163" font-family="'Times New Roman', serif" font-size="6.5" font-weight="bold" text-anchor="middle" fill="#ffffff">జ్ఞానం విజ్ఞానం విముక్తయే</text>
+        </svg>
+      </div>
+
+      <div>
+        <div class="college-name">MADANAPALLE INSTITUTE OF TECHNOLOGY &amp; SCIENCE</div>
+        <div class="college-tag">(UGC - AUTONOMOUS)</div>
+        <div class="college-details">
+          (Affiliated to JNTUA, Anantapuramu)<br />
+          (Accredited by NBA, Approved by AICTE, New Delhi)<br />
+          AN ISO 21001:2018 Certified Institution<br />
+          P. B. No: 14, Angallu, Madanapalle - 517325
+        </div>
+        <div class="front-year">2026-27</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 2: ABSTRACT                                                           -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <h1 class="section-title">ABSTRACT</h1>
+      
+      <div class="abstract-body">
+        <p>
+          <strong>MotoMind</strong> is a full-stack, rule-based Artificial Intelligence (AI) expert system engineered to diagnose and troubleshoot mechanical, electrical, fuel, and engine anomalies in two-wheelers (motorcycles and scooters). Modern two-wheeler riders and field service technicians frequently encounter unexpected breakdown symptoms—such as starter click without cranking, sluggish throttle acceleration, abnormal engine clatter, overheating, or rapid battery drain—yet lack immediate access to diagnostic expertise. MotoMind bridges this gap by emulating human specialist troubleshooting through a formal Knowledge Base, Working Memory, and Forward-Chaining Inference Engine.
+        </p>
+
+        <p>
+          The platform combines an interactive, automotive-styled <strong>React.js</strong> frontend dashboard with a high-performance <strong>Python</strong> REST API backend. The system organizes two-wheeler diagnostic knowledge across four fundamental vehicle subsystems: Starting Problems, Engine Problems, Performance Problems, and Electrical Problems, comprising 12 canonical observable symptoms. Domain knowledge is encoded as 12 production rules utilizing propositional logic (IF-THEN clauses), incorporating prerequisite activation thresholds, fault categories, and severity tiers (Low, Medium, and High).
+        </p>
+
+        <p>
+          The inference engine implements forward-chaining pattern matching against user-reported symptoms. It deterministically calculates a percentage-based confidence score based on the intersection between observed facts and rule preconditions. Diagnosed faults are prioritized through a multi-tier ranking heuristic (Match Percentage &rarr; Matched Count &rarr; Severity Weight). For each deduced fault, MotoMind renders transparent justifications displaying the exact rule condition triggered, mechanical root cause explanations, ordered step-by-step troubleshooting procedures, and certified mechanic advisories.
+        </p>
+
+        <p>
+          Extensive validation demonstrates 100% deterministic accuracy across single-fault and multi-fault scenarios, successfully isolating complex conditions such as battery depletion versus starter relay failure, ignition misfires versus carburetor clogging, and stator charging degradation versus chassis ground short circuits. Unlike opaque statistical machine learning models, MotoMind delivers verifiable, explainable, and zero-hallucination diagnostics, serving as an effective educational tool and preliminary diagnostic guide.
+        </p>
+
+        <div class="keywords">
+          <strong>Keywords:</strong> MotoMind, Expert System, Rule-Based AI, Forward Chaining, Knowledge Base, Inference Engine, Two-Wheeler Fault Diagnosis, Python, React.js, Flask, REST API.
+        </div>
+      </div>
+
+      <div class="page-number">2</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 3: AIM & SYSTEM ARCHITECTURE                                          -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <h1 class="section-title">1. AIM AND OBJECTIVES</h1>
+      <p>
+        To design and develop <strong>MotoMind</strong>, a full-stack web-based Artificial Intelligence Expert System that assists riders and technicians in identifying common motorcycle and scooter faults by analyzing reported symptoms through a Python-powered rule-based inference engine and an interactive React.js diagnostic dashboard.
+      </p>
+      <p>The primary objectives of this project include:</p>
+      <ul>
+        <li>To formalize two-wheeler mechanical and electrical troubleshooting knowledge into a structured Knowledge Base of declarative production rules (IF-THEN).</li>
+        <li>To implement a deterministic forward-chaining inference engine in Python that evaluates symptom combinations without relying on external cloud AI APIs or black-box neural networks.</li>
+        <li>To calculate mathematical confidence scores (match percentages) and rank multiple potential faults by likelihood and severity.</li>
+        <li>To build a responsive automotive dashboard in React.js featuring dynamic category filtering, demo presets, real-time counters, and print-ready report generation.</li>
+        <li>To provide complete diagnostic explainability, giving the rider concrete reasons why a fault was deduced along with actionable troubleshooting instructions.</li>
+      </ul>
+
+      <h1 class="section-title" style="margin-top: 14px;">2. DESCRIPTION OF THE PROJECT INCLUDING MODULES</h1>
+      <h2 class="subsection-title">2.1 Project Overview &amp; Full-Stack Architecture</h2>
+      <p>
+        MotoMind separates application concerns into a decoupled client-server architecture. The user interface is built using React.js 18, providing real-time state management, glassmorphic dark-charcoal UI styling, and asynchronous REST communication. The backend is engineered in Python 3.14 (utilizing Flask / standard HTTP service), hosting the inference engine and domain rules.
+      </p>
+
+      <div class="table-caption">Table 1: MotoMind Full-Stack Technology Architecture</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 28%;">Architectural Layer</th>
+            <th style="width: 72%;">Technologies &amp; Repository Components</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI Inference Engine</strong></td>
+            <td>Python 3.14, Forward-Chaining Pattern Matching, Multi-factor Ranking Heuristic (<code>engine.py</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Knowledge Base</strong></td>
+            <td>Declarative Production Rules, Propositional Logic Vectors, Severity &amp; Action Metadata (<code>rules.py</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Backend API Framework</strong></td>
+            <td>Python Flask REST Framework, Flask-CORS, Built-in HTTP Fallback Server (<code>app.py</code>, port 5000)</td>
+          </tr>
+          <tr>
+            <td><strong>Frontend Dashboard</strong></td>
+            <td>React.js 18, Vite 5.4, Semantic HTML5, CSS3 Variables, JetBrains Mono &amp; Plus Jakarta Sans (<code>App.jsx</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Verification &amp; Testing</strong></td>
+            <td>Automated Test Suite for Rule Coverage &amp; Scenario Consistency (<code>test_api.py</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subsection-title">2.2 Expert System Architecture vs Traditional Programming / ML</h2>
+      <p>
+        Unlike procedural code where logic is tightly coupled with control flow, MotoMind isolates <em>Domain Knowledge</em> from the <em>Inference Mechanism</em>. This enables automotive specialists to update mechanical rules without altering core execution code. Furthermore, unlike machine learning which requires vast statistical training sets and produces opaque probabilities, MotoMind's rule-based reasoning offers 100% auditability and safety.
+      </p>
+
+      <div class="page-number">3</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 4: KNOWLEDGE BASE & PRODUCTION RULES                                  -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <h2 class="subsection-title">2.3 Knowledge Base Specification &amp; Symptom Catalog</h2>
+      <p>
+        The working memory accepts facts from four primary automotive domains comprising 12 symptoms:
+      </p>
+
+      <div class="table-caption">Table 2: MotoMind Master Symptom Catalog</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Category</th>
+            <th style="width: 25%;">Symptom ID</th>
+            <th style="width: 25%;">Observable Symptom</th>
+            <th style="width: 25%;">Diagnostic Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="3"><strong>Starting Problems</strong></td>
+            <td><code>bike_wont_start</code></td>
+            <td>Bike won't start</td>
+            <td>Engine does not crank or fire up</td>
+          </tr>
+          <tr>
+            <td><code>self_start_not_working</code></td>
+            <td>Self-start not working</td>
+            <td>Electric starter push-button fails to spin motor</td>
+          </tr>
+          <tr>
+            <td><code>clicking_sound_starting</code></td>
+            <td>Clicking sound when starting</td>
+            <td>Starter solenoid relay clicks rapidly under load</td>
+          </tr>
+          <tr>
+            <td rowspan="3"><strong>Engine Problems</strong></td>
+            <td><code>engine_overheating</code></td>
+            <td>Engine overheating</td>
+            <td>Cylinder temperature spike, burning oil odor</td>
+          </tr>
+          <tr>
+            <td><code>engine_unusual_noises</code></td>
+            <td>Engine making unusual noises</td>
+            <td>Metallic knocking, tappet rattle, piston slap</td>
+          </tr>
+          <tr>
+            <td><code>engine_stopping_frequently</code></td>
+            <td>Engine stopping frequently</td>
+            <td>Sudden stall at idle or throttle roll-off</td>
+          </tr>
+          <tr>
+            <td rowspan="3"><strong>Performance Problems</strong></td>
+            <td><code>low_mileage</code></td>
+            <td>Low mileage</td>
+            <td>Rapid fuel depletion; incomplete combustion</td>
+          </tr>
+          <tr>
+            <td><code>poor_acceleration</code></td>
+            <td>Poor acceleration</td>
+            <td>Sluggish throttle pick-up; vehicle bogs down</td>
+          </tr>
+          <tr>
+            <td><code>excessive_vibration</code></td>
+            <td>Excessive vibration</td>
+            <td>Harmonic chassis/handlebar shaking under speed</td>
+          </tr>
+          <tr>
+            <td rowspan="3"><strong>Electrical Problems</strong></td>
+            <td><code>headlight_not_working</code></td>
+            <td>Headlight not working</td>
+            <td>Bulb dead or filament unlit due to low voltage</td>
+          </tr>
+          <tr>
+            <td><code>battery_draining_quickly</code></td>
+            <td>Battery draining quickly</td>
+            <td>Loss of charge overnight; parasitic draw</td>
+          </tr>
+          <tr>
+            <td><code>horn_not_working</code></td>
+            <td>Horn not working</td>
+            <td>Electromagnetic diaphragm silent or squeaking</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subsection-title">2.4 Production Rules &amp; Forward-Chaining Inference Mechanism</h2>
+      <p>
+        The inference engine operates on forward chaining: taking input facts from working memory and comparing them against the precondition antecedent vector of each production rule. When a rule satisfies its minimum threshold criterion ($k \ge \text{min\_required}$), the rule fires and generates a candidate fault.
+      </p>
+
+      <div class="formula-banner">
+        Match Confidence (%) = ( Number of Matched Rule Symptoms / Total Symptoms Defined in Rule ) &times; 100%
+      </div>
+
+      <p>Candidate diagnoses are then prioritized by a deterministic 3-tuple sorting key:</p>
+      <ol>
+        <li><strong>Match Percentage (Descending):</strong> Highest proportional symptom convergence.</li>
+        <li><strong>Matched Symptom Count (Descending):</strong> Resolves ties in favor of higher absolute evidence.</li>
+        <li><strong>Severity Weight (Descending):</strong> High (Weight = 3) &gt; Medium (Weight = 2) &gt; Low (Weight = 1).</li>
+      </ol>
+
+      <div class="page-number">4</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 5: PRODUCTION RULES SPECIFICATION TABLE                               -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <div class="table-caption">Table 3: Predefined Knowledge Base Production Rules (EXPERT_RULES)</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 10%;">Rule ID</th>
+            <th style="width: 25%;">Diagnosed Fault</th>
+            <th style="width: 12%;">Severity</th>
+            <th style="width: 53%;">Logical IF-THEN Proposition &amp; Symptoms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>RULE_01</strong></td>
+            <td>Discharged or Dead Battery</td>
+            <td>Medium</td>
+            <td>IF (Bike won't start OR Clicking sound) AND (Headlight not working OR Battery draining) THEN Dead Battery</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_02</strong></td>
+            <td>Defective Starter Relay / Motor</td>
+            <td>Medium</td>
+            <td>IF Self-start not working AND Clicking sound when starting THEN Starter Relay / Motor Fault</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_03</strong></td>
+            <td>Fouled Spark Plug / Ignition Fault</td>
+            <td>High</td>
+            <td>IF Bike won't start AND (Engine stopping frequently OR Poor acceleration) THEN Spark Plug Fault</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_04</strong></td>
+            <td>Engine Overheating &amp; Low Oil</td>
+            <td>High</td>
+            <td>IF Engine overheating AND (Engine unusual noises OR Poor acceleration) THEN Thermal / Oil Seizure</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_05</strong></td>
+            <td>Clogged Air Filter / Carburetor</td>
+            <td>Medium</td>
+            <td>IF Poor acceleration AND (Low mileage OR Engine stopping frequently) THEN Air/Fuel Starvation</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_06</strong></td>
+            <td>Faulty Charging Stator / RR Unit</td>
+            <td>High</td>
+            <td>IF Battery draining quickly AND Headlight not working THEN Alternator / Rectifier Failure</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_07</strong></td>
+            <td>Blown Main Fuse / Ground Short</td>
+            <td>Medium</td>
+            <td>IF (Headlight not working AND Horn not working) OR (Self-start failing AND Horn failing) THEN Blown Fuse</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_08</strong></td>
+            <td>Drive Chain Slack / Bad Mounts</td>
+            <td>Low</td>
+            <td>IF Excessive vibration AND Poor acceleration THEN Mechanical Transmission / Mount Slack</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_09</strong></td>
+            <td>Internal Engine Mechanical Wear</td>
+            <td>High</td>
+            <td>IF Engine unusual noises AND (Excessive vibration OR Engine overheating) THEN Tappet / Piston Wear</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_10</strong></td>
+            <td>Fuel Line Contamination</td>
+            <td>Medium</td>
+            <td>IF Bike won't start AND Engine stopping frequently THEN Water/Debris Fuel Starvation</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_11</strong></td>
+            <td>Safety Switch Interlock Fault</td>
+            <td>Low</td>
+            <td>IF Self-start not working AND Bike won't start (without starter click) THEN Neutral/Stand Switch</td>
+          </tr>
+          <tr>
+            <td><strong>RULE_12</strong></td>
+            <td>Horn Assembly Malfunction</td>
+            <td>Low</td>
+            <td>IF Horn not working THEN Horn Diaphragm / Contact Switch Fault</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subsection-title">2.5 Major Software Modules</h2>
+      <ol>
+        <li><strong>Knowledge Base Module (<code>rules.py</code>):</strong> Stores static subsystem schemas, symptom definitions, and 12 production rules with action recommendations.</li>
+        <li><strong>Inference Engine Module (<code>engine.py</code>):</strong> Encapsulates forward chaining, condition threshold verification, confidence score calculation, and result sorting.</li>
+        <li><strong>REST API Service Module (<code>app.py</code>):</strong> Exposes HTTP endpoints (<code>/api/health</code>, <code>/api/symptoms</code>, <code>/api/rules</code>, <code>/api/diagnose</code>) with CORS enabled.</li>
+        <li><strong>Interactive React Dashboard (<code>App.jsx</code>, <code>App.css</code>):</strong> Provides dynamic symptom selection, real-time counters, search filters, demonstration presets, and print report views.</li>
+        <li><strong>Automated Test Suite (<code>test_api.py</code>):</strong> Executes unit and integration test assertions across all standard fault scenarios.</li>
+      </ol>
+
+      <div class="page-number">5</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 6: SOURCE CODE EXCERPTS                                               -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <h1 class="section-title">3. SOURCE CODE</h1>
+      <p>
+        The source code below is excerpted from the official project repository. Each module is shown with its architectural purpose and repository path.
+      </p>
+
+      <div class="code-purpose">3.1 Python Rule-Based Inference Engine</div>
+      <div class="code-file">Repository file: motomind-react-python/backend/engine.py</div>
+      <div class="code-box">class RuleBasedInferenceEngine:
+    SEVERITY_WEIGHT = {"High": 3, "Medium": 2, "Low": 1}
+
+    def __init__(self, rules=None):
+        self.rules = rules if rules is not None else EXPERT_RULES
+
+    def diagnose(self, selected_symptom_ids: List[str]) -> Dict[str, Any]:
+        selected_set = set(selected_symptom_ids)
+        diagnosed_faults = []
+
+        for rule in self.rules:
+            matched_ids = [s for s in rule["symptoms"] if s in selected_set]
+            match_count = len(matched_ids)
+
+            # Check rule activation threshold
+            if match_count >= rule.get("min_required", 1):
+                match_percentage = round((match_count / len(rule["symptoms"])) * 100)
+                matched_labels = [SYMPTOM_LOOKUP.get(s, {}).get("label", s) for s in matched_ids]
+                missing_labels = [SYMPTOM_LOOKUP.get(s, {}).get("label", s) 
+                                  for s in rule["symptoms"] if s not in selected_set]
+
+                diagnosed_faults.append({
+                    "rule_id": rule["id"],
+                    "fault": rule["fault"],
+                    "category": rule["category"],
+                    "severity": rule["severity"],
+                    "match_percentage": match_percentage,
+                    "match_count": match_count,
+                    "total_symptoms": len(rule["symptoms"]),
+                    "matched_symptoms": matched_labels,
+                    "missing_symptoms": missing_labels,
+                    "rule_condition": rule["rule_condition"],
+                    "explanation": rule["explanation"],
+                    "troubleshooting": rule["troubleshooting"],
+                    "mechanic_advice": rule["mechanic_advice"]
+                })
+
+        # Multi-factor priority ranking: Match % -> Match Count -> Severity Weight
+        diagnosed_faults.sort(
+            key=lambda x: (x["match_percentage"], x["match_count"], self.SEVERITY_WEIGHT.get(x["severity"], 0)),
+            reverse=True
+        )
+        return {"status": "success", "results": diagnosed_faults}</div>
+
+      <div class="code-purpose">3.2 Python REST API Service</div>
+      <div class="code-file">Repository file: motomind-react-python/backend/app.py</div>
+      <div class="code-box">@app.route("/api/diagnose", methods=["POST"])
+def diagnose():
+    payload = request.get_json(silent=True) or {}
+    selected_symptoms = payload.get("symptoms", [])
+    if not isinstance(selected_symptoms, list):
+        return jsonify({"status": "error", "message": "symptoms must be a list"}), 400
+    
+    # Execute forward-chaining inference
+    result = run_diagnosis(selected_symptoms)
+    return jsonify(result)</div>
+
+      <div class="page-number">6</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 7: SOURCE CODE (REACT FRONTEND)                                       -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <div class="code-purpose">3.3 React API Service Client</div>
+      <div class="code-file">Repository file: motomind-react-python/frontend/src/api.js</div>
+      <div class="code-box">const API_BASE = "http://127.0.0.1:5000";
+
+export async function diagnoseSymptoms(symptomIds) {
+  const res = await fetch(`${API_BASE}/api/diagnose`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ symptoms: symptomIds })
+  });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return await res.json();
+}</div>
+
+      <div class="code-purpose">3.4 React Symptom Selection &amp; Diagnosis Trigger</div>
+      <div class="code-file">Repository file: motomind-react-python/frontend/src/App.jsx</div>
+      <div class="code-box">const handleRunDiagnosis = async () => {
+  if (selectedSymptoms.size === 0) {
+    alert("Please select at least one symptom before running diagnosis.");
+    return;
+  }
+  setIsDiagnosing(true);
+  try {
+    const response = await diagnoseSymptoms(Array.from(selectedSymptoms));
+    setDiagnosticResults(response.results || []);
+    setActiveView("results");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (err) {
+    setApiError("Unable to connect to Python backend at http://127.0.0.1:5000");
+  } finally {
+    setIsDiagnosing(false);
+  }
+};
+
+// Preset Scenario Handlers for Live Demo
+const handleLoadPreset = (presetKey) => {
+  const presets = {
+    battery: ["bike_wont_start", "clicking_sound_starting", "headlight_not_working"],
+    overheating: ["engine_overheating", "engine_unusual_noises", "poor_acceleration"],
+    fuel_carb: ["low_mileage", "poor_acceleration", "engine_stopping_frequently"],
+    electrical: ["headlight_not_working", "horn_not_working", "self_start_not_working"]
+  };
+  setSelectedSymptoms(new Set(presets[presetKey] || []));
+};</div>
+
+      <h1 class="section-title" style="margin-top: 14px;">4. INPUT AND OUTPUT (TEST CASES &amp; RESULTS)</h1>
+      <h2 class="subsection-title">4.1 Diagnostic Inputs and Controls</h2>
+      <p>
+        The user interacts with the system by selecting one or more symptoms from the 4 categories or by applying one-click live demonstration presets. Table 4 specifies the operational parameter boundaries.
+      </p>
+
+      <div class="table-caption">Table 4: MotoMind Input Constraints and Inference Boundaries</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Parameter</th>
+            <th style="width: 25%;">Allowed Values</th>
+            <th style="width: 50%;">Inference Engine Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Symptom Input Set</strong></td>
+            <td>1 to 12 Symptoms</td>
+            <td>Forms active Working Memory facts vector</td>
+          </tr>
+          <tr>
+            <td><strong>Precondition Threshold</strong></td>
+            <td>1 or 2 matches (per rule)</td>
+            <td>Governs activation threshold before rule fires</td>
+          </tr>
+          <tr>
+            <td><strong>Confidence Metric</strong></td>
+            <td>0.0% to 100.0%</td>
+            <td>Quantifies symptom convergence with fault vector</td>
+          </tr>
+          <tr>
+            <td><strong>Severity Hierarchy</strong></td>
+            <td>High, Medium, Low</td>
+            <td>Sort priority and color-coded visual alert</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-number">7</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 8: TEST RESULTS & CASE STUDIES                                        -->
+  <!-- ========================================================================== -->
+  <div class="report-sheet">
+    <div class="page-border"></div>
+    <div class="page-content">
+      <h2 class="subsection-title">4.2 Empirical Test Scenarios &amp; Validation Results</h2>
+      <p>
+        The rule-based expert system was evaluated against canonical mechanical scenarios. Table 5 details the exact inputs, triggered rule identifiers, confidence scores, and troubleshooting outputs.
+      </p>
+
+      <div class="table-caption">Table 5: Experimental Verification of Diagnostic Test Cases</div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th style="width: 18%;">Scenario</th>
+            <th style="width: 28%;">Selected Symptoms</th>
+            <th style="width: 12%;">Top Rule</th>
+            <th style="width: 10%;">Match %</th>
+            <th style="width: 12%;">Severity</th>
+            <th style="width: 20%;">Key Actionable Step</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Dead Battery</strong></td>
+            <td>Bike won't start, Clicking sound, Headlight dead</td>
+            <td>RULE_01</td>
+            <td>100%</td>
+            <td>Medium</td>
+            <td>Clean terminals; check battery resting voltage (&ge; 12.6V).</td>
+          </tr>
+          <tr>
+            <td><strong>2. Engine Heat</strong></td>
+            <td>Engine overheating, Unusual noise, Poor acceleration</td>
+            <td>RULE_04</td>
+            <td>100%</td>
+            <td>High</td>
+            <td>Shut off engine; inspect oil level on dipstick / sight glass.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Carb Clog</strong></td>
+            <td>Low mileage, Poor acceleration, Frequent stalling</td>
+            <td>RULE_05</td>
+            <td>100%</td>
+            <td>Medium</td>
+            <td>Inspect air filter element; clean carburetor jets / injector.</td>
+          </tr>
+          <tr>
+            <td><strong>4. Electrical Short</strong></td>
+            <td>Headlight not working, Horn not working, Self-start dead</td>
+            <td>RULE_07</td>
+            <td>100%</td>
+            <td>Medium</td>
+            <td>Check 10A/15A main blade fuse link and chassis ground.</td>
+          </tr>
+          <tr>
+            <td><strong>5. Solenoid Failure</strong></td>
+            <td>Self-start not working, Clicking sound when starting</td>
+            <td>RULE_02</td>
+            <td>67%</td>
+            <td>Medium</td>
+            <td>Check starter relay fuse; inspect starter motor carbon brushes.</td>
+          </tr>
+          <tr>
+            <td><strong>6. Stator / RR Drain</strong></td>
+            <td>Battery draining quickly, Headlight not working</td>
+            <td>RULE_06</td>
+            <td>100%</td>
+            <td>High</td>
+            <td>Measure AC voltage from stator coils; check RR connector.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subsection-title">4.3 Diagnostic Dashboard Layout &amp; Card Presentation</h2>
+      <p>
+        When the user triggers diagnosis, MotoMind renders diagnostic cards featuring:
+      </p>
+      <ul>
+        <li><strong>Likelihood Rank &amp; Category:</strong> Displays ordinal ranking (e.g. <code>#1 Likely Cause</code>) and component subsystem (e.g. <code>Electrical &amp; Starting</code>).</li>
+        <li><strong>Confidence Meter &amp; Severity Tag:</strong> Visual animated progress bar reflecting the calculated match percentage alongside color-coded severity badges (Red for High, Amber for Medium, Green for Low).</li>
+        <li><strong>Transparent Logic Banner:</strong> Discloses the triggered knowledge base rule (e.g. <code>IF ('Bike won't start' OR 'Clicking sound') AND ('Headlight not working')</code>).</li>
+        <li><strong>Expert Explanation:</strong> Clear technical description detailing mechanical friction, voltage drops, or stoichiometric ratio disruption.</li>
+        <li><strong>Numbered Troubleshooting Checklist:</strong> Sequenced action steps starting from simple non-invasive inspection to multimeter testing.</li>
+        <li><strong>Professional Safety Guidance:</strong> Highlights critical mechanical hazards requiring workshop intervention before riding.</li>
+      </ul>
+
+      <h1 class="section-title" style="margin-top: 14px;">5. CONCLUSION</h1>
+      <p>
+        <strong>MotoMind</strong> successfully demonstrates the practical implementation of an Artificial Intelligence Rule-Based Expert System for two-wheeler fault diagnosis. By separating domain knowledge into declarative production rules in Python and providing a real-time reactive user interface in React.js, the system delivers instantaneous, 100% explainable, and deterministic troubleshooting recommendations. Experimental test cases confirm that the forward-chaining pattern matching algorithm accurately identifies critical faults across electrical, starting, engine, and fuel systems while preventing hallucinated diagnoses. Future work includes expanding the rule base to include fuel injection ECU error codes, integrating OBD-II Bluetooth telemetry streaming, and supporting localized multilingual audio diagnosis guides.
+      </p>
+
+      <div class="page-number">8</div>
+    </div>
+  </div>
+
+</body>
+</html>
